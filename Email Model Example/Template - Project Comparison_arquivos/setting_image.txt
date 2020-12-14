@@ -1,0 +1,13 @@
+Image ID	Excel	Sheet	Type	Range/Num
+class1A.png	1	1	table	B13:E17
+class2A.png	1	1	table	B21:E25
+class1B.png	1	2	table	B13:E17
+class2B.png	1	2	table	B21:E25
+class1.png	1	1	table	B13:E13
+class2.png	1	1	table	B21:E21
+projA.png	Example	1	table	N6:N6
+projB.png	Workb	2	table	N6:N6
+class1Ach.png	Proj	1	chart	1
+class2Ach.png	Compar	nilha1	chart	2
+class1Bch.png	1	ilha2	chart	1
+class2Bch.png	1	2	chart	2

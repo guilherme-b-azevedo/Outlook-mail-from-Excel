@@ -1,0 +1,18 @@
+ID tag name	Excel	Sheet	Cell
+ProjectA	1	1	N6
+ProjectB	1	2	{manual_cell_N6}
+ResponsibleA	1	1	(5;==;Responsible :;+;13)5
+Responsib	1	1	A5
+ResponsibleB	1	2	N(A;==;{Responsib};+;0)
+TypeA	1	1	N7
+TypeB	1	2	N7
+DateA	1	1	N8
+DateB	1	2	N8
+TotalA1	1	1	(17;==;TOTAL;-;2)(B;==;CLASS 1;+;4)
+TotalA2	1	1	(17;==;TOTAL;-;2)(B;==;CLASS 2;+;4)
+TotalB1	1	2	(17;==;TOTAL;-;2)(B;==;CLASS 1;+;4)
+TotalB2	1	2	(25;==;TOTAL;-;2)(B;==;CLASS 2;+;4)
+ClassA1	1	1	B13
+ClassA2	1	1	B21
+ClassB1	Example	2	B13
+ClassB2	Examp	2	B21

@@ -1,0 +1,2 @@
+Subject text in one line:
+[{ProjectA} - {ProjectB:.3}] Status Comparison Update {subject_end}

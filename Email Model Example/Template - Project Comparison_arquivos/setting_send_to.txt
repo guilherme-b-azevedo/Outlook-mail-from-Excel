@@ -1,0 +1,5 @@
+Send to email:
+pluto@email.com
+pippo@maile.com
+{ResponsibleA}@email.com
+{ResponsibleB}@email.com
