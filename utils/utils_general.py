@@ -85,7 +85,11 @@ def get_index_by_str(idx_text, opt_list=[], minus_one=True):
         if (
                 len(opt_list) == 0 or
                 (len(opt_list) > 0 and len(opt_list) >= int(idx_text))):
-            if minus_one:
+            if minus_one and int(idx_text) == 0:
+                logger.warning("Not permitted index '{}' for options"
+                               " '{}' !".format(idx_text, opt_list))
+                return None
+            elif minus_one and int(idx_text) > 0:
                 return int(idx_text) - 1
             else:
                 return int(idx_text)

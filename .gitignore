@@ -1,0 +1,4 @@
+TOOL MANUAL Outlook Mail From Excel.docx
+*.log
+**/__pycache__
+*.pyc

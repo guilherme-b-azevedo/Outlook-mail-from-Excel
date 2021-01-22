@@ -84,7 +84,7 @@ stream_handler.setFormatter(stream_formatter)
 
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
-logger.propagate = False
+logger.propagate = False  # avoid duplication of registers
 
 
 # Check Manual values setting file .txt
@@ -169,7 +169,7 @@ for BOOK in WORKBOOK:
 logger.info("Listed Worsheets by Workbook '{}'.".format(SHEET_LISTS))
 
 ######################## ↓ GET VALUES ↓ ########################
-for SETUP in USER_VAL_LIST:  # SETUP = "ID	Sheet	Cell"
+for SETUP in USER_VAL_LIST:  # SETUP = "ID	Book    Sheet	Cell"
     # format setup with values previously got manually and automatically
     SETUP = SETUP.format_map(u_gen.SafeDict(VAL_DICT))
     KEY = str(SETUP.split(sep='\t')[0])  # dict key to format_map
@@ -206,7 +206,7 @@ print("\n")
 ######################## ↑ GET VALUES ↑ ########################
 
 ######################## ↓ GET IMAGES ↓ ########################
-for SETUP in USER_IMG_LIST:  # SETUP = "ID	Sheet	Type	Cell/Num"
+for SETUP in USER_IMG_LIST:  # SETUP = "ID	Book    Sheet	Type	Cell/Num"
     # format setup with values previously got manually and automatically
     SETUP = SETUP.format_map(u_gen.SafeDict(VAL_DICT))
     IMAGE_ID = SETUP.split(sep='\t')[0]  # image file with extension

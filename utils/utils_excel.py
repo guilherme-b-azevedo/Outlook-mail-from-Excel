@@ -99,8 +99,10 @@ def find_column(sheet, coded_location):
     for COLUMN in range(1, sheet.UsedRange.Columns.Count + 2):
         CELL_VALUE = sheet.Cells(
             int(coded_location.group('col_in_row')), COLUMN).Value
+        if CELL_VALUE is None:  # match emp´ty cell with empty string
+            CELL_VALUE = ""
         if coded_location.group('col_comp') == "==":
-            if CELL_VALUE == coded_location.group('col_text'):
+            if str(CELL_VALUE) == coded_location.group('col_text'):
                 if coded_location.group('col_offset') == "+":
                     SET_COL = COLUMN+int(coded_location.group('col_off_value'))
                     break
@@ -109,31 +111,29 @@ def find_column(sheet, coded_location):
                     break
         elif (coded_location.group('col_comp') == "!=" or
               coded_location.group('col_comp') == "<>"):
-            if CELL_VALUE != coded_location.group('col_text'):
+            if str(CELL_VALUE) != coded_location.group('col_text'):
                 if coded_location.group('col_offset') == "+":
                     SET_COL = COLUMN+int(coded_location.group('col_off_value'))
                     break
                 elif coded_location.group('col_offset') == "-":
                     SET_COL = COLUMN-int(coded_location.group('col_off_value'))
                     break
-        elif coded_location.group('col_comp') == ">":
-            if CELL_VALUE > int(coded_location.group('col_text')):
+        elif coded_location.group('col_comp') == ">=":
+            if CELL_VALUE >= float(coded_location.group('col_text')):
                 if coded_location.group('col_offset') == "+":
                     SET_COL = COLUMN+int(coded_location.group('col_off_value'))
                     break
                 elif coded_location.group('col_offset') == "-":
                     SET_COL = COLUMN-int(coded_location.group('col_off_value'))
                     break
-        elif coded_location.group('col_comp') == "<":
-            if CELL_VALUE < int(coded_location.group('col_text')):
+        elif coded_location.group('col_comp') == "<=":
+            if CELL_VALUE <= float(coded_location.group('col_text')):
                 if coded_location.group('col_offset') == "+":
                     SET_COL = COLUMN+int(coded_location.group('col_off_value'))
                     break
                 elif coded_location.group('col_offset') == "-":
                     SET_COL = COLUMN-int(coded_location.group('col_off_value'))
                     break
-        else:
-            next
     if SET_COL < 0:
         logger.warning("Column not found for logic '{}' !"
                        .format(coded_location.group('col')))
@@ -227,8 +227,10 @@ def find_row(sheet, coded_location):
     for ROW in range(1, sheet.UsedRange.Rows.Count + 2):
         CELL_VALUE = sheet.Range(
             coded_location.group('lin_in_col') + str(ROW)).Value
+        if CELL_VALUE is None:
+            CELL_VALUE = ""  # match empty cell with empty string
         if coded_location.group('lin_comp') == "==":
-            if CELL_VALUE == coded_location.group('lin_text'):
+            if str(CELL_VALUE) == coded_location.group('lin_text'):
                 if coded_location.group('lin_offset') == "+":
                     SET_ROW = ROW + int(coded_location.group('lin_off_value'))
                     break
@@ -237,31 +239,29 @@ def find_row(sheet, coded_location):
                     break
         elif (coded_location.group('lin_comp') == "!=" or
               coded_location.group('lin_comp') == "<>"):
-            if CELL_VALUE != coded_location.group('lin_text'):
+            if str(CELL_VALUE) != coded_location.group('lin_text'):
                 if coded_location.group('lin_offset') == "+":
                     SET_ROW = ROW + int(coded_location.group('lin_off_value'))
                     break
                 elif coded_location.group('lin_offset') == "-":
                     SET_ROW = ROW - int(coded_location.group('lin_off_value'))
                     break
-        elif coded_location.group('lin_comp') == ">":
-            if CELL_VALUE > int(coded_location.group('lin_text')):
+        elif coded_location.group('lin_comp') == ">=":
+            if CELL_VALUE >= float(coded_location.group('lin_text')):
                 if coded_location.group('lin_offset') == "+":
                     SET_ROW = ROW + int(coded_location.group('lin_off_value'))
                     break
                 elif coded_location.group('lin_offset') == "-":
                     SET_ROW = ROW - int(coded_location.group('lin_off_value'))
                     break
-        elif coded_location.group('lin_comp') == "<":
-            if CELL_VALUE < int(coded_location.group('lin_text')):
+        elif coded_location.group('lin_comp') == "<=":
+            if CELL_VALUE <= float(coded_location.group('lin_text')):
                 if coded_location.group('lin_offset') == "+":
                     SET_ROW = ROW + int(coded_location.group('lin_off_value'))
                     break
                 elif coded_location.group('lin_offset') == "-":
                     SET_ROW = ROW - int(coded_location.group('lin_off_value'))
                     break
-        else:
-            next
     if SET_ROW < 0:
         logger.warning("Row not found for logic '{}' !"
                        .format(coded_location.group('lin')))
@@ -413,7 +413,7 @@ def get_cell(sheet, location):
     elif (location.group('col_in_row') is not None and
           location.group('lin_in_col') is None):  # location == (logic)1
         COLUMN = find_column(sheet, location)
-        if COLUMN < 0:  # if not found
+        if COLUMN <= 0:  # if not found
             logger.warning("Column not found for setup '{}' !"
                            .format(location.group(0)))
             return None
@@ -423,7 +423,7 @@ def get_cell(sheet, location):
     elif (location.group('col_in_row') is None and
           location.group('lin_in_col') is not None):  # location == A(logic)
         ROW = find_row(sheet, location)
-        if ROW < 0:  # if not found
+        if ROW <= 0:  # if not found
             logger.warning("Row not found for setup '{}' !"
                            .format(location.group(0)))
             return None
@@ -432,12 +432,12 @@ def get_cell(sheet, location):
     elif (location.group('col_in_row') is not None and
           location.group('lin_in_col') is not None):  # locatio==(logic)(logic)
         COLUMN = find_column(sheet, location)
-        if COLUMN < 0:  # if not found
+        if COLUMN <= 0:  # if not found
             logger.warning("Column not found for setup '{}' !"
                            .format(location.group(0)))
             return None
         ROW = find_row(sheet, location)
-        if ROW < 0:  # if not found
+        if ROW <= 0:  # if not found
             logger.warning("Row not found for setup '{}' !"
                            .format(location.group(0)))
             return None
